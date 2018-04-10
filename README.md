@@ -72,9 +72,9 @@ In this section I will explain how I performed each step that was asked to perfo
                             grepl("std\\()",features[, 2]))
     ```
     Since features had 3 columns less than the dataset that contains the train and test data, I had to sum 3 to the columns indicator, then I performed the extraction with the select function from the dplyr package.
-```
-dataset <- select(dataset, c(1, 2, 3, meanstd_cols + 3))
-```
+    ```
+    dataset <- select(dataset, c(1, 2, 3, meanstd_cols + 3))
+    ```
 3. Appropriately labels the data set with descriptive variable names.\
     The dataset named "features.txt" contained all the names for each one of the features that is in the train and test datasets. I used The first three columns where named by my own criteria, and the remainder where labeled as in the features dataset.
     ```
