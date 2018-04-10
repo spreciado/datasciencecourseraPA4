@@ -16,43 +16,43 @@ library(dplyr)
 
 ## 2. Reading the data
 
-a.  activity_labels
+a.  activity_labels.
 ```
 activity_labels <-  read.table("activity_labels.txt", 
                         colClasses = c("numeric", "character"))
 ```
-b. Features
+b. Features.
 ```
 features <-  read.table("features.txt", 
                              colClasses = c("numeric", "character"))
 ```
-c. train and data sets\
-For the train and data set I executed almost the same code, changing the directories, for reference "word" is going to be either "train" or "test".
-    1. Read the subject dataset.
+c. Train and test data sets.\
+For the train and test data set I executed almost the same code, changing the directories, for reference "word" is going to be either    "train" or "test".
+1. Read the subject dataset.
     ```
     subject_word <- read.table("./train/subject_word.txt")
     ```
-    2. Read the word dataset.
+2. Read the word dataset.
     ```
     X_word <- read.table("./train/X_word.txt")
     ```
-    3. Read the labels dataset.
+3. Read the labels dataset.
     ```
     y_word <- read.table("./word/y_word.txt")
     ```
-    4. Merge the labels, subject and the values for the word dataset. I included a column as a character, indicating it the values come from de train or test dataset.
+4. Merge the labels, subject and the values for the word dataset. I included a column as a character, indicating it the values come from de train or test dataset.
     ```
     word <- data.frame(subject_word, "word", y_word, X_word)
     ```
-    5. For each dataset, I use the tbl_df word prior to merging both databases.
+5. For each dataset, I use the tbl_df word prior to merging both databases.
     ```
     word <- tbl_df(word)
     ```
-    6. The function tbl_df modifies the names of the column that I added, in order to merge them properly I modified the column.
+6. The function tbl_df modifies the names of the column that I added, in order to merge them properly I modified the column.
     ```
     colnames(test)[2] <- colnames(train)[2] <- "x"
     ```
-    7. I erase the uploaded info from the R Environment to free memory.
+7. Erase the uploaded info from the R Environment to free memory.
     ```
     rm(subject_word, X_word, y_word)
     ```
