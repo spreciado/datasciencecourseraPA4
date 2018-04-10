@@ -60,36 +60,36 @@ For the train and test data set I executed almost the same code, changing the di
 ## 3. Analysis
 In this section I will explain how I performed each step that was asked to perform in the course project guide. I swapped the order of steps 3 and 4.
 
-1. Merges the training and the test sets to create one data set\ 
-I used the bid_rows function from dplyr package to merge the datasets.
-```
-dataset <- bind_rows(train, test)
-```
-2. Extracts only the measurements on the mean and standard deviation for each measurement\
-meanstd_cols is a variable that contains only the names that have the words mean() or std(), I used the variable `features` for that purpose.
-```
-meanstd_cols <- which(grepl("mean\\()", features[, 2]) | 
-                        grepl("std\\()",features[, 2]))
-```
-Since features had 3 columns less than the dataset that contains the train and test data, I had to sum 3 to the columns indicator, then I performed the extraction with the select function from the dplyr package.
+1. Merges the training and the test sets to create one data set.\
+    I used the bid_rows function from dplyr package to merge the datasets.
+    ```
+    dataset <- bind_rows(train, test)
+    ```
+2. Extracts only the measurements on the mean and standard deviation for each measurement.\
+    meanstd_cols is a variable that contains only the names that have the words mean() or std(), I used the variable `features` for that purpose.
+    ```
+    meanstd_cols <- which(grepl("mean\\()", features[, 2]) | 
+                            grepl("std\\()",features[, 2]))
+    ```
+    Since features had 3 columns less than the dataset that contains the train and test data, I had to sum 3 to the columns indicator, then I performed the extraction with the select function from the dplyr package.
 ```
 dataset <- select(dataset, c(1, 2, 3, meanstd_cols + 3))
 ```
-3. Appropriately labels the data set with descriptive variable names\
-The dataset named "features.txt" contained all the names for each one of the features that is in the train and test datasets. I used The first three columns where named by my own criteria, and the remainder where labeled as in the features dataset.
-```
-colnames(dataset) <- c("subject", "type_of_measurement" ,"activity", 
-                    features[meanstd_cols, 2])
-```
-4. Uses descriptive activity names to name the activities in the data set\
-The variable "subject" was labeled using the information contained in the "activity_labels.txt" dataset. I used the mutate function from the dplyr package to perform the change.
-```
-dataset <-
-  mutate(dataset, activity = factor(activity, levels = c(1:nrow(activity_labels)), 
-                                    labels = activity_labels[, 2]))
-```
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject\
-Only the variables "subject", "type_of measurement" and "activity" where observations of one variable, all the others contained information about the Signal, the signal_type (mean or std) and direction (x, y, z or none). In order to tidy the data I gathered all the variables except for the three that were already ok ("subject", "type_of measurement" and "activity"). Therefore I created a long dataset that had one single value, with that dataset I used the separate function to separate the Signal variable into three new variables called "Signal", "signal_type" and direction.
-```
-dataset2 <- dataset %>% gather(Signal ,Value, -(subject:activity)) %>% separate(Signal, c("signal", "signal_type","direction"))
-```
+3. Appropriately labels the data set with descriptive variable names.\
+    The dataset named "features.txt" contained all the names for each one of the features that is in the train and test datasets. I used The first three columns where named by my own criteria, and the remainder where labeled as in the features dataset.
+    ```
+    colnames(dataset) <- c("subject", "type_of_measurement" ,"activity", 
+                        features[meanstd_cols, 2])
+    ```
+4. Uses descriptive activity names to name the activities in the data set.\
+    The variable "subject" was labeled using the information contained in the "activity_labels.txt" dataset. I used the mutate function from the dplyr package to perform the change.
+    ```
+    dataset <-
+      mutate(dataset, activity = factor(activity, levels = c(1:nrow(activity_labels)), 
+                                        labels = activity_labels[, 2]))
+    ```
+5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.\
+    Only the variables "subject", "type_of measurement" and "activity" where observations of one variable, all the others contained information about the Signal, the signal_type (mean or std) and direction (x, y, z or none). In order to tidy the data I gathered all the variables except for the three that were already ok ("subject", "type_of measurement" and "activity"). Therefore I created a long dataset that had one single value, with that dataset I used the separate function to separate the Signal variable into three new variables called "Signal", "signal_type" and direction.
+    ```
+    dataset2 <- dataset %>% gather(Signal ,Value, -(subject:activity)) %>% separate(Signal, c("signal", "signal_type","direction"))
+    ```
