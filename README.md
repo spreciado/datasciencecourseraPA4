@@ -28,32 +28,31 @@ features <-  read.table("features.txt",
 ```
 c. train and data sets\
 For the train and data set I executed almost the same code, changing the directories, for reference "word" is going to be either "train" or "test".
-
-    c.1 Read the subject dataset.\
+    1. Read the subject dataset.
     ```
     subject_word <- read.table("./train/subject_word.txt")
-    ```\
-    c.2 Read the word dataset.\
+    ```
+    2. Read the word dataset.
     ```
     X_word <- read.table("./train/X_word.txt")
-    ```\
-    c.3 Read the labels dataset.\
+    ```
+    3. Read the labels dataset.
     ```
     y_word <- read.table("./word/y_word.txt")
-    ```\
-    c.4 Merge the labels, subject and the values for the word dataset. I included a column as a character, indicating it the values come from de train or test dataset.\
+    ```
+    4. Merge the labels, subject and the values for the word dataset. I included a column as a character, indicating it the values come from de train or test dataset.
     ```
     word <- data.frame(subject_word, "word", y_word, X_word)
-    ```\
-    c.5 For each dataset, I use the tbl_df word prior to merging both databases.\
+    ```
+    5. For each dataset, I use the tbl_df word prior to merging both databases.
     ```
     word <- tbl_df(word)
-    ```\
-    c.6 The function tbl_df modifies the names of the column that I added, in order to merge them properly I modified the column.\
+    ```
+    6. The function tbl_df modifies the names of the column that I added, in order to merge them properly I modified the column.
     ```
     colnames(test)[2] <- colnames(train)[2] <- "x"
-    ```\
-    c.7. I erase the uploaded info from the R Environment to free memory.\
+    ```
+    7. I erase the uploaded info from the R Environment to free memory.
     ```
     rm(subject_word, X_word, y_word)
     ```
